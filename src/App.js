@@ -24,19 +24,26 @@
 
 // export default App;
 import { BrowserRouter } from 'react-router-dom';
-import Sidebar from 'components/layout/SideBar';
-import Header from 'components/layout/Header';
-import Footer from 'components/layout/Footer';
-import Main from "components/layout/Main";
+import { Routes, Route } from "react-router-dom";
+import Container from 'components/layout/Container';
+import Login from 'pages/Login';
 
 function App() {
   return (
+    // <BrowserRouter>
+    //   <Header />
+    //   <Sidebar />     
+    //   <Main />
+    //   <Footer />
+    // </BrowserRouter>
+
     <BrowserRouter>
-      <Header />
-      <Sidebar />     
-      <Main />
-      <Footer />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/*" element={<Container />} />
+      </Routes>
     </BrowserRouter>
+
   );
 }
 export default App;
