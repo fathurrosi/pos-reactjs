@@ -1,25 +1,9 @@
-// import React from 'react';
-// import { Navigate, useLocation } from 'react-router-dom';
-
-// const PrivateRoute = ({ children }) => {
-//   const location = useLocation();
-//   const isAuthenticated = /* Your authentication logic here */;
-
-//   if (!isAuthenticated) {
-//     return <Navigate to="/login" state={{ from: location }} replace />;
-//   }
-
-//   return children;
-// };
-
-// export default PrivateRoute;
-
-
-// PrivateRoute.js
 import React, { useState, useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import authService from '../services/auth';
+import AuthService from 'services/AuthService';
 
+
+const authService = new AuthService();
 const PrivateRoute = ({ children }) => {
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(null);
