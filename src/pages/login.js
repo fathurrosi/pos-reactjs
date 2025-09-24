@@ -1,105 +1,111 @@
-// import React, { useState } from 'react';
-// import authService from '../services/auth';
-// // import Button from '../shared/Button';
-
-// import Button from '../components/shared/Button';
-
-
-// const Login = () => {
-//   const [username, setUsername] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [error, setError] = useState(null);
-
-//   const handleSubmit = async (event) => {
-//     event.preventDefault();
-//     try {
-//       await authService.login({ username, password });
-//       window.location.href = '/dashboard';
-//     } catch (error) {
-//       setError('Invalid username or password');
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <h1>Login</h1>
-//       <form onSubmit={handleSubmit}>
-//         <label>
-//           Username:
-//           <input
-//             type="text"
-//             value={username}
-//             onChange={(event) => setUsername(event.target.value)}
-//           />
-//         </label>
-//         <br />
-//         <label>
-//           Password:
-//           <input
-//             type="password"
-//             value={password}
-//             onChange={(event) => setPassword(event.target.value)}
-//           />
-//         </label>
-//         <br />
-//         <Button type="submit" onClick={() => console.log('Login button clicked!')}>Login</Button>
-//         {error && <p style={{ color: 'red' }}>{error}</p>}
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default Login;
-
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import AuthService from 'services/AuthService';
 
-const Login = () => {
+const authService = new AuthService();
+function Login() {
+  const [rememberMe, setRememberMe] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({});
+  const [error, setError] = useState(null);
 
+
+  const navigate = useNavigate();
   const validateForm = () => {
-    const newErrors = {};
-    if (!username) {
-      newErrors.username = 'Username is required';
+    if (!username || !password) {
+      return 'Username and password are required';
     }
-    if (!password) {
-      newErrors.password = 'Password is required';
-    } else if (password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
+
+    if (username.length < 3) {
+      return 'Username must be at least 3 characters long';
     }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+
+    if (password.length < 3) {
+      return 'Password must be at least 3 characters long';
+    }
+
+    return null;
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (validateForm()) {
-      // Call API to login
-      console.log('Login successful');
+    const errorMessage = validateForm();
+    if (errorMessage) {
+      setError(errorMessage);
+      return;
     }
+
+    const credentials = { username: username, password: password };
+    authService.login(credentials)
+      .then((responseData) => {
+        console.log('Login successful:', responseData);
+        navigate('/', { replace: true });
+      })
+      .catch((error) => {
+        setError(error.response.data.message);
+      });
+
   };
 
   return (
-    <div className="login-form">
-      <h2>Login</h2>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="username">
-          <Form.Label>Username</Form.Label>
-          <Form.Control type="text" value={username} onChange={(event) => setUsername(event.target.value)} />
-          {errors.username && <div style={{ color: 'red' }}>{errors.username}</div>}
-        </Form.Group>
-        <Form.Group controlId="password" className="mt-3">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
-          {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
-        </Form.Group>
-        <Button variant="primary" type="submit" className="mt-3">
-          Login
-        </Button>
-      </Form>
+    <div className="hold-transition login-page">
+      <div className="login-box">
+        <div className="login-logo">
+          <a href="#"><b>Admin</b>LTE</a>
+        </div>
+        <div className="card">
+          <div className="card-body login-card-body">
+            <p className="login-box-msg">Sign in to start your session</p>
+            <form >
+              <div className="input-group mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                />
+                <div className="input-group-append">
+                  <div className="input-group-text">
+                    <span className="fas fa-user" />
+                  </div>
+                </div>
+              </div>
+              <div className="input-group mb-3">
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+                <div className="input-group-append">
+                  <div className="input-group-text">
+                    <span className="fas fa-lock" />
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-8">
+                  <div className="icheck-primary">
+                    <input type="checkbox" id="remember" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} />
+                    <label htmlFor="remember"> Remember Me</label>
+                  </div>
+                </div>
+                <div className="col-4">
+                  <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmit}>
+                    Sign In
+                  </button>
+
+                </div>
+              </div>
+              {error && <div style={{ color: 'red' }}>{error}</div>}
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
-};
+}
+
 export default Login;
