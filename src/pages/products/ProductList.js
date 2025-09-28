@@ -43,15 +43,6 @@ export class ProductList extends Component {
       showEditModal: true,
       isNew: true,
       selectedProduct: {
-        name: '',
-        description: '',
-        notes: '',
-        photo: '',
-        unit: '',
-        type: '',
-        category: '',
-        price: 0,
-        cost: 0,
         profile: this.state.profile
       },
     });
