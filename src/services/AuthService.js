@@ -21,6 +21,8 @@ class AuthService {
     try {
       const response = await axios.post(`${this.apiUrl}/Login`, credentials);
       if (response.data.token) {
+        var user =response.data.data;
+        localStorage.setItem('profile', user.profile);
         localStorage.setItem('token', response.data.token);
       }
       return response.data;
@@ -31,6 +33,7 @@ class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('profile');
   }
 }
 
