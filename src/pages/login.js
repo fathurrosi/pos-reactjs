@@ -51,7 +51,7 @@ function Login() {
     <div className="hold-transition login-page">
       <div className="login-box">
         <div className="login-logo">
-          <a href="#"><b>Admin</b>LTE</a>
+          <a href="#"><b style={{ fontSize: '0.8rem' }}>POS v3.2.0</b><br /><p >Warung Madura</p></a>
         </div>
         <div className="card">
           <div className="card-body login-card-body">
@@ -89,7 +89,7 @@ function Login() {
                 <div className="col-8">
                   <div className="icheck-primary">
                     <input type="checkbox" id="remember" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} />
-                    <label htmlFor="remember"> Remember Me</label>
+                    <label htmlFor="remember">&nbsp;Remember Me</label>
                   </div>
                 </div>
                 <div className="col-4">
