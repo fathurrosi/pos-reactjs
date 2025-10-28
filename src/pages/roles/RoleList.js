@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import RoleService from 'services/api/RoleService';
-import { Button } from 'react-bootstrap';
+//import { Button } from 'react-bootstrap';
 import EditRole from './EditRole';
-import { Trash, Pencil } from 'react-bootstrap-icons';
+//import { Trash, Pencil } from 'react-bootstrap-icons';
+
+import { Trash, PencilSquare, Files } from 'react-bootstrap-icons';
 
 const roleService = new RoleService();
 
@@ -18,7 +20,7 @@ export class RoleList extends Component {
       isNew: false,
       currentPage: 1,
       pageSize: 10,
-      totalCount: 0,
+      totalCount: 0,      
     };
   }
 
@@ -117,14 +119,28 @@ export class RoleList extends Component {
                     <td>{t.rowIndex}</td>
                     <td>{t.name}</td>
                     <td>{t.description}</td>
+
                     <td>
+                      <a href="#" onClick={() => this.handleEditRole(t)}>
+                        <Files color="blue" size={15} />
+                      </a>
+                      <a href="#" onClick={() => this.handleDeleteRole(t)}>
+                        <Trash color="red" size={15} />
+                      </a>
+
+                      <a href="#" onClick={() => this.handleEditRole(t)}>
+                        <PencilSquare color="blue" size={15} />
+                      </a>
+                    </td>
+
+                    {/* <td>
                       <a href="#" onClick={() => this.handleEditRole(t)}>
                         <Pencil color="blue" size={15} />
                       </a>
                       <a href="#" onClick={() => this.handleDeleteRole(t)}>
                         <Trash color="red" size={15} />
                       </a>
-                    </td>
+                    </td> */}
                   </tr>)
               })
               }

@@ -2,7 +2,9 @@ import axios from 'axios';
 
  class RoleService {
   constructor() {
-    this.apiUrl = 'http://localhost:5111/api/Role';
+    this.apiUrl = 'http://localhost:5111/api/Role';    
+    this.profile = localStorage.getItem('profile');
+    this.token = localStorage.getItem('token');
   }
 
   // async getRoles() {
@@ -12,27 +14,39 @@ import axios from 'axios';
 
   
   async getRoles(pageIndex, pageSize) {
-    const response = await axios.get(`${this.apiUrl}/Paging/${pageIndex}/${pageSize}`);
+    const response = await axios.get(`${this.apiUrl}/Paging/${pageIndex}/${pageSize}/${this.profile}`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    });
     return response.data;
   }
 
   async getRoleById(id) {
-    const response = await axios.get(`${this.apiUrl}/${id}`);
+    const response = await axios.get(`${this.apiUrl}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    });
     return response.data;
   }
 
   async saveRole(role) {
-    const response = await axios.post(this.apiUrl, role);
+    role.profile = this.profile;
+    const response = await axios.post(this.apiUrl, role, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    });
     return response.data;
   }
 
-  // async updateRole(id, role) {
-  //   const response = await axios.put(`${this.apiUrl}/${id}`, role);
-  //   return response.data;
-  // }
-
   async deleteRole(id) {
-   const response = await axios.delete(`${this.apiUrl}/${id}`);
+   const response = await axios.delete(`${this.apiUrl}/${id}`, {
+     headers: {
+       Authorization: `Bearer ${this.token}`
+     }
+   });
    return response.data;
   }
 }
