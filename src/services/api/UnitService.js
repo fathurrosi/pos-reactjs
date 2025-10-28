@@ -1,22 +1,21 @@
 import axios from 'axios';
 
-class CategoryService {
+class UnitService {
   constructor() {
-    this.apiUrl ='http://localhost:5111/api/Category'
+    this.apiUrl ='http://localhost:5111/api/Unit'
   }
 
-  //[HttpGet("{pageIndex}/{pageSize}/{profile}")]
   async getDataList(pageIndex, pageSize, profile) {
     const response = await axios.get(`${this.apiUrl}/${pageIndex}/${pageSize}/${profile}`);
     return response.data;
   }
 
-  async getDataById(profile,id) {
-    const response = await axios.get(`${this.apiUrl}/${profile}/${id}`);
+  async getDataById(code,profile) {
+    const response = await axios.get(`${this.apiUrl}/${code}/${profile}`);
     return response.data;
   }
 
-  async getCategories(profile) {
+  async getUnits(profile) {
     const response = await axios.get(`${this.apiUrl}/${profile}`);
     return response.data;
   }
@@ -26,10 +25,10 @@ class CategoryService {
     return response.data;
   }
 
-  async deleteData(id,profile) {
-    const response = await axios.delete(`${this.apiUrl}/${id}/${profile}`);
+  async deleteData(code,profile) {
+    const response = await axios.delete(`${this.apiUrl}/${code}/${profile}`);
     return response.data;
   }
 }
 
-export default CategoryService;
+export default UnitService;

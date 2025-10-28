@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import ProductService from 'services/api/ProductService';
 import ProductDetail from 'pages/products/ProductDetail';
-import { Trash, Pencil } from 'react-bootstrap-icons';
+import { Trash, PencilSquare, Files } from 'react-bootstrap-icons';
 
 const productService = new ProductService();
-
 export class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +17,9 @@ export class ProductList extends Component {
       currentPage: 1,
       pageSize: 10,
       totalCount: 0,
+      optUnit: [],
+      optCategory: [],
+      optType: []
     };
   }
 
@@ -27,7 +29,7 @@ export class ProductList extends Component {
 
   fetchProducts = async (pageNumber, pageSize, profile) => {
     try {
-      const response = await productService.getProducts(pageNumber, pageSize, profile);
+      const response = await productService.getDataList(pageNumber, pageSize, profile);
       this.setState({ products: response.items, totalCount: response.totalCount });
     } catch (error) {
       console.error(error);
@@ -38,19 +40,19 @@ export class ProductList extends Component {
     this.setState({ showEditModal: true, isNew: false, selectedProduct: product });
   };
 
-  handleNewProduct = () => {
+  handleNewProduct = () => {    
     this.setState({
       showEditModal: true,
       isNew: true,
       selectedProduct: {
-        profile: this.state.profile
+        Profile: this.state.profile
       },
     });
   };
 
   handleSaveProduct = async (updatedProduct) => {
     try {
-      const response = await productService.saveProduct(updatedProduct);
+      const response = await productService.saveData(updatedProduct);
       console.log(response);
       if (response) {
         this.fetchProducts(this.state.currentPage, this.state.pageSize, updatedProduct.profile);
@@ -64,7 +66,7 @@ export class ProductList extends Component {
     var confirmDelete = window.confirm('Are you sure to delete this record?');
     if (confirmDelete) {
       try {
-        const response = await productService.deleteProduct(product.code, product.profile);
+        const response = await productService.deleteData(product.code, product.profile);
         console.log(response);
         if (response) {
           this.fetchProducts(this.state.currentPage, this.state.pageSize, product.profile);
@@ -96,7 +98,7 @@ export class ProductList extends Component {
               <tr>
                 <th>No</th>
                 <th>Photo</th>
-                <th>Code</th>
+                {/* <th>Code</th> */}
                 <th>Name</th>
                 <th>Category</th>
                 <th>BasePrice</th>
@@ -111,7 +113,7 @@ export class ProductList extends Component {
                   <tr key={product.UniqueCode}>
                     <td>{product.rowIndex}</td>
                     <td>{product.photo && <img src={product.photo} alt={product.name} width="50" />}</td>
-                    <td>{product.code}</td>
+                    {/* <td>{product.code}</td> */}
                     <td>{product.name}</td>
                     <td>{product.description}</td>
                     <td>{product.basePrice}</td>
@@ -119,10 +121,14 @@ export class ProductList extends Component {
                     <td>{product.stock}</td>
                     <td>
                       <a href="#" onClick={() => this.handleEditProduct(product)}>
-                        <Pencil color="blue" size={15} />
+                        <Files color="blue" size={15} />
                       </a>
                       <a href="#" onClick={() => this.handleDeleteProduct(product)}>
                         <Trash color="red" size={15} />
+                      </a>
+
+                      <a href="#" onClick={() => this.handleEditProduct(product)}>
+                        <PencilSquare color="blue" size={15} />
                       </a>
                     </td>
                   </tr>
@@ -136,10 +142,7 @@ export class ProductList extends Component {
             {Array(totalPages)
               .fill(null)
               .map((_, index) => (
-                <li
-                  key={index}
-                  className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
-                >
+                <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}                >
                   <button className="page-link" onClick={() => this.handlePageChange(index + 1)}>
                     {index + 1}
                   </button>
