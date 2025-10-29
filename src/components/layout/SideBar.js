@@ -133,7 +133,7 @@ function Sidebar() {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/Role" className="nav-link">
+                  <Link to="/previllage" className="nav-link">
                     <i className="nav-icon fas fa-chevron-right"></i>
                     <p>Previllage</p>
                   </Link>

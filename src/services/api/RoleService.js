@@ -1,8 +1,8 @@
 import axios from 'axios';
 
- class RoleService {
+class RoleService {
   constructor() {
-    this.apiUrl = 'http://localhost:5111/api/Role';    
+    this.apiUrl = 'http://localhost:5111/api/Role';
     this.profile = localStorage.getItem('profile');
     this.token = localStorage.getItem('token');
   }
@@ -12,7 +12,17 @@ import axios from 'axios';
   //   return response.data;
   // }
 
-  
+
+  async getRoleOptions() {
+    //ByProfile/{profile}
+    const response = await axios.get(`${this.apiUrl}/ByProfile/${this.profile}`, {
+      headers: {
+        Authorizastion: `Bearer ${this.token}`
+      }
+    });
+    return response.data;
+  }
+
   async getRoles(pageIndex, pageSize) {
     const response = await axios.get(`${this.apiUrl}/Paging/${pageIndex}/${pageSize}/${this.profile}`, {
       headers: {
@@ -42,12 +52,12 @@ import axios from 'axios';
   }
 
   async deleteRole(id) {
-   const response = await axios.delete(`${this.apiUrl}/${id}`, {
-     headers: {
-       Authorization: `Bearer ${this.token}`
-     }
-   });
-   return response.data;
+    const response = await axios.delete(`${this.apiUrl}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    });
+    return response.data;
   }
 }
 

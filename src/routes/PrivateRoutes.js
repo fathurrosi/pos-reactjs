@@ -6,8 +6,11 @@ import { ProductList } from 'pages/products/ProductList';
 import { CategoryList } from 'pages/categories/CategoryList';
 import { CustomerList } from 'pages/customers/CustomerList';
 import { SupplierList } from 'pages/suppliers/SupplierList';
+import { PrevillageList } from 'pages/previllages/PrevillageList';
 import  Logout  from 'pages/Logout';
 import { Routes, Route } from "react-router-dom";
+
+
 
 const PrivateRoutes = () => {
   return (
@@ -21,8 +24,9 @@ const PrivateRoutes = () => {
       <Route path="/customer" element={<PrivateRoute> <CustomerList /> </PrivateRoute>} />
       <Route path="/supplier" element={<PrivateRoute> <SupplierList /> </PrivateRoute>} />
       <Route path="/dashboard" element={<PrivateRoute> <Dashboard /> </PrivateRoute>} />
+      <Route path="/previllage" element={<PrivateRoute> <PrevillageList /> </PrivateRoute>} />
     </Routes>
   );
-};
+};  
 
 export default PrivateRoutes;
