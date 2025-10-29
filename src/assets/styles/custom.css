@@ -3,3 +3,6 @@
   margin-top: 0 !important; /* or any other value you want */
 }
     
+.center-checkbox {
+  text-align: center;
+}

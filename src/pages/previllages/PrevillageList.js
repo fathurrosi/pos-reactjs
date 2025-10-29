@@ -1,27 +1,13 @@
-// export class PrevillageList extends Component {
-// const PrevillageList = () => {
-//   return (
-//     <div>
-//       <h1>PrevillageList Component</h1>
-//     </div>
-//   );
-// };
-
-// export default PrevillageList;
-
-
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import PrevillageService from 'services/api/PrevillageService';
-//import { Trash, PencilSquare, Files } from 'react-bootstrap-icons';
-import { Modal, Form, Button } from 'react-bootstrap';
-
+import { Form, Button } from 'react-bootstrap';
 import RoleService from 'services/api/RoleService';
 import Select from 'react-select';
+import 'assets/styles/custom.css';
 
 const previllageService = new PrevillageService();
 const roleService = new RoleService();
-
 
 export class PrevillageList extends Component {
   constructor(props) {
@@ -65,28 +51,6 @@ export class PrevillageList extends Component {
     }
   };
 
-  // fetchOptions = async () => {
-  //   try {
-  //     const roles = await roleService.getRoleOptions();
-  //     if (roles) {
-
-  //       var selectedRoleId = 0;
-  //       if (roles.length > 0) {
-  //         selectedRoleId = roles[0].id;
-  //       }
-  //       alert(selectedRoleId);
-  //       const options = roles.map((item) => ({
-  //         value: item.id,
-  //         label: item.name,
-  //       }));
-  //       this.setState({ optRole: roles, selectedRole: selectedRoleId, roleOptions: options });
-
-  //     }
-  //   } catch (error) {
-  //     alert(error);
-  //   }
-  // };
-
   fetchPrevillages = async (roleId) => {
     try {
       const list = await previllageService.getDataList(roleId);
@@ -98,10 +62,6 @@ export class PrevillageList extends Component {
 
   componentDidMount() {
     this.fetchOptions();
-
-    // if (this.state.selectedRole > 0) {
-    //   this.fetchPrevillages(this.state.selectedRole);
-    // }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -131,24 +91,38 @@ export class PrevillageList extends Component {
   }
 
 
-  // saveChanges = () => {
-  //   const data = this.state.items;
-  //   fetch('/api/update-data', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(data)
-  //   })
-  //     .then(response => response.json())
-  //     .then(result => {
-  //       console.log(result);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  // }
+  // handleSubmit = () => {
+  //   const dataItems = this.state.items;
 
+  //   var result = previllageService.saveData(dataItems);
+  //   result.then(() => {
+  //     alert("Data saved successfully");
+  //   });
+  // };
+
+
+  handleSubmit = () => {
+    const dataItems = this.state.items;
+    var result = previllageService.saveData(dataItems);
+    result.then((response) => {
+      if (response) {
+        alert("Data saved successfully");
+      } else {
+        // do something else
+        alert("Failed to save data");
+      }
+    }).catch((error) => {
+      // handle error
+      alert("Error: " + error);
+    });
+  };
+
+
+
+
+  handleClear = () => {
+    this.fetchPrevillages(this.state.selectedRole);
+  };
 
   render() {
 
@@ -168,30 +142,15 @@ export class PrevillageList extends Component {
             </Form.Group>
           </Form>
 
-          {/* <Form>
-            <Form.Group controlId="role" className="d-flex align-items-center">
-              <Form.Label className="me-2">Role</Form.Label>
-              <Select
-                options={this.state.roleOptions}
-                value={{ value: this.state.selectedRole, label: this.state.optRole.find((role) => role.id === this.state.selectedRole)?.name }}
-                onChange={(selectedOption) => this.setState({ selectedRole: selectedOption.value })}
-                placeholder="Select Role" className="me-4"
-                
-              />
-              {this.state.errors.role && <div style={{ color: 'red' }}>{this.state.errors.role}</div>}
-            </Form.Group>
-          </Form> */}
-
-
           <Table id="table-to-print" className="mt-4" striped bordered hover size="sm">
             <thead>
               <tr>
                 <th>Menu</th>
-                <th>Allow Create</th>
-                <th>Allow Read</th>
-                <th>Allow Update</th>
-                <th>Allow Delete</th>
-                <th>Allow Print</th>
+                <th className="center-checkbox">Allow Create</th>
+                <th className="center-checkbox">Allow Read</th>
+                <th className="center-checkbox">Allow Update</th>
+                <th className="center-checkbox">Allow Delete</th>
+                <th className="center-checkbox">Allow Print</th>
               </tr>
             </thead>
             <tbody>
@@ -199,16 +158,22 @@ export class PrevillageList extends Component {
                 return (
                   <tr key={index}>
                     <td>{item.menuName}</td>
-                    <td><input type="checkbox" checked={item.allowRead} onChange={(e) => this.handleChange(index, 'allowRead', e.target.checked)} /></td>
-                    <td><input type="checkbox" checked={item.allowCreate} onChange={(e) => this.handleChange(index, 'allowCreate', e.target.checked)} /></td>
-                    <td><input type="checkbox" checked={item.allowUpdate} onChange={(e) => this.handleChange(index, 'allowUpdate', e.target.checked)} /></td>
-                    <td><input type="checkbox" checked={item.allowDelete} onChange={(e) => this.handleChange(index, 'allowDelete', e.target.checked)} /></td>
-                    <td><input type="checkbox" checked={item.allowPrint} onChange={(e) => this.handleChange(index, 'allowPrint', e.target.checked)} /></td>
+                    <td className="center-checkbox"><input type="checkbox" checked={item.allowRead} onChange={(e) => this.handleChange(index, 'allowRead', e.target.checked)} /></td>
+                    <td className="center-checkbox"><input type="checkbox" checked={item.allowCreate} onChange={(e) => this.handleChange(index, 'allowCreate', e.target.checked)} /></td>
+                    <td className="center-checkbox"><input type="checkbox" checked={item.allowUpdate} onChange={(e) => this.handleChange(index, 'allowUpdate', e.target.checked)} /></td>
+                    <td className="center-checkbox"><input type="checkbox" checked={item.allowDelete} onChange={(e) => this.handleChange(index, 'allowDelete', e.target.checked)} /></td>
+                    <td className="center-checkbox"><input type="checkbox" checked={item.allowPrint} onChange={(e) => this.handleChange(index, 'allowPrint', e.target.checked)} /></td>
                   </tr>
                 );
               })}
             </tbody>
           </Table>
+        
+          <div className="mt-auto d-flex justify-content-end pt-3 mb-2 me-2">
+            <Button variant="secondary" onClick={this.handleClear}> Clear </Button>
+            <Button className="ms-2" variant="primary" onClick={this.handleSubmit}> Save Changes </Button>
+          </div>
+
         </div>
       </div>
     );
