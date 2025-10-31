@@ -1,6 +1,7 @@
 import React from 'react';
 import Breadcrumb from 'components/layout/Breadcrumb';
 import CommonRoutes from "routes/CommonRoutes";
+import PageTitle from './PageTitle';
 const Main = () => {
   return (
     <div className="content-wrapper" >
@@ -8,7 +9,8 @@ const Main = () => {
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col-sm-6">
-              <h1 className="m-0"> Judul Halaman</h1>
+              {/* <h1 className="m-0"> Judul Halaman</h1> */}
+              <PageTitle></PageTitle>
             </div>
             <div className="col-sm-6">
               <Breadcrumb />
