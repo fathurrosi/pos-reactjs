@@ -6,3 +6,44 @@
 .center-checkbox {
   text-align: center;
 }
+
+.text-center {
+  text-align: center;
+}
+
+
+.jstree-table-cell-regular  {
+  text-align: center;
+}
+
+
+.jstree-table tbody tr:nth-child(even) {
+  background-color: #316b75; /* light gray background for even rows */
+}
+
+.jstree-table tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* white background for odd rows */
+}
+
+.jstree-table tbody tr {
+  border-bottom: 1px solid #ddd; /* add a bottom border to each row */
+}
+.jstree-table thead th {
+  background-color: #4CAF50; /* green background for header */
+  color: white; /* white text for header */
+  padding: 10px; /* padding for header cells */
+  border-bottom: 2px solid #ddd; /* bottom border for header */
+}
+
+
+.even-row {
+  background-color: #0ea75a;
+}
+
+.odd-row {
+  background-color: hsl(0, 91%, 50%);
+}
+
+.even-row, .odd-row {
+  border-bottom: 1px solid #ddd;
+}

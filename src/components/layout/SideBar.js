@@ -155,13 +155,19 @@ function Sidebar() {
                     <p>Profile</p>
                   </Link>
                 </li>
+                <li className="nav-item">
+                  <Link to="/Test" className="nav-link">
+                    <i className="nav-icon fas fa-chevron-right"></i>
+                    <p>Test</p>
+                  </Link>
+                </li>
 
               </ul>
             </li>
             <li className="nav-item">
               <Link to="/Logout" className="nav-link">
                 <i className="nav-icon fas fa-sign-out-alt"></i>
-                
+
                 <p>Logout</p>
               </Link>
             </li>
